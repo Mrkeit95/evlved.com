@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EVLVED — You're In</title>
+<meta name="description" content="You're on the list for EVLVED. Here's what's coming." />
+<meta name="robots" content="noindex" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -32 100 60'%3E%3Cpolyline points='-44,18 0,-26 44,18' fill='none' stroke='%23c9a961' stroke-width='3' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-soft: #131313;
+    --ink: #f4efe6;
+    --ink-soft: rgba(244, 239, 230, 0.78);
+    --ink-dim: rgba(244, 239, 230, 0.5);
+    --ink-faint: rgba(244, 239, 230, 0.18);
+    --gold: #c9a961;
+    --gold-soft: rgba(201, 169, 97, 0.25);
+    --gold-faint: rgba(201, 169, 97, 0.08);
+    --line: rgba(244, 239, 230, 0.08);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(201, 169, 97, 0.05) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 169, 97, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 32px 48px;
+    z-index: 1;
+  }
+
+  /* TOP BAR */
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .top-left {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+  .top-right {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  /* MAIN */
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    padding: 80px 20px 60px;
+    animation: fadeUp 1.4s var(--ease) both;
+    max-width: 880px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mark {
+    width: 90px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fadeIn 1.8s var(--ease) 0.2s forwards;
+  }
+  .mark svg { width: 100%; display: block; }
+
+  @keyframes fadeIn { to { opacity: 1; } }
+
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.55em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 28px;
+    padding-left: 0.55em;
+    position: relative;
+  }
+  .eyebrow::before,
+  .eyebrow::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+  .eyebrow::before { left: -52px; }
+  .eyebrow::after { right: -52px; }
+
+  .headline {
+    font-size: 56px;
+    line-height: 0.95;
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 200;
+  }
+
+  .subhead {
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 520px;
+    margin: 0 auto 64px;
+    letter-spacing: 0.005em;
+  }
+
+  /* SYSTEMS LIST */
+  .systems-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 8px;
+    padding-bottom: 14px;
+    padding-left: 0.5em;
+    border-bottom: 1px solid var(--line);
+    width: 100%;
+    max-width: 640px;
+    text-align: left;
+  }
+
+  .systems {
+    width: 100%;
+    max-width: 640px;
+    text-align: left;
+    margin-bottom: 64px;
+  }
+
+  .system {
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: start;
+  }
+  .system:last-child { border-bottom: none; }
+
+  .system-num {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-top: 4px;
+  }
+
+  .system-body { }
+
+  .system-name {
+    font-size: 19px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.005em;
+  }
+  .system-name em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 400;
+  }
+
+  .system-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  /* SIGN-OFF */
+  .signoff {
+    text-align: center;
+    max-width: 440px;
+    margin: 0 auto;
+    padding-top: 8px;
+  }
+  .signoff p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    font-weight: 300;
+    margin-bottom: 24px;
+    letter-spacing: 0.005em;
+  }
+  .signoff .author {
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-left: 0.4em;
+  }
+
+  /* BOTTOM */
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    padding-top: 48px;
+  }
+  .bottom-line {
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+  .bottom-text {
+    font-size: 10px;
+    letter-spacing: 0.55em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-left: 0.55em;
+  }
+
+  /* MOBILE */
+  @media (max-width: 720px) {
+    .page { padding: 24px 24px; }
+    .top-left { font-size: 10px; }
+    .top-right { font-size: 9px; letter-spacing: 0.35em; }
+    .main { padding: 48px 0 40px; }
+    .mark { width: 70px; margin-bottom: 36px; }
+    .eyebrow { font-size: 10px; letter-spacing: 0.5em; margin-bottom: 20px; }
+    .eyebrow::before, .eyebrow::after { display: none; }
+    .headline { font-size: 38px; margin-bottom: 18px; }
+    .subhead { font-size: 16px; margin-bottom: 44px; }
+    .systems-eyebrow { font-size: 10px; }
+    .systems { margin-bottom: 48px; }
+    .system { grid-template-columns: 50px 1fr; gap: 16px; padding: 18px 0; }
+    .system-num { font-size: 10px; padding-top: 2px; }
+    .system-name { font-size: 17px; }
+    .system-desc { font-size: 13.5px; }
+    .signoff p { font-size: 14px; }
+    .bottom-text { font-size: 9px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOP -->
+  <div class="top">
+    <div class="top-left">EVLVED</div>
+    <div class="top-right">Vol. 01 &mdash; 04</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="mark">
+      <svg viewBox="-50 -32 100 60" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="-44,18 0,-26 44,18" fill="none" stroke="#c9a961" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter"/>
+        <polyline points="-30,8 0,-22 30,8" fill="none" stroke="#c9a961" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" opacity="0.7"/>
+        <polyline points="-16,-2 0,-18 16,-2" fill="none" stroke="#c9a961" stroke-width="1.6" stroke-linecap="square" stroke-linejoin="miter" opacity="0.45"/>
+      </svg>
+    </div>
+
+    <div class="eyebrow">Confirmed</div>
+
+    <h1 class="headline">You're <em>in.</em></h1>
+
+    <p class="subhead">You&rsquo;re on the list. Here&rsquo;s what&rsquo;s coming.</p>
+
+    <div class="systems-eyebrow">The Four Systems</div>
+
+    <div class="systems">
+
+      <div class="system">
+        <div class="system-num">N&deg; 01</div>
+        <div class="system-body">
+          <div class="system-name">The Discipline <em>System</em></div>
+          <p class="system-desc">Honestly, this one is the foundation. If you don&rsquo;t have your habits and routines locked in, none of the other stuff matters. This is how I actually run my days.</p>
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-num">N&deg; 02</div>
+        <div class="system-body">
+          <div class="system-name">The Fitness <em>System</em></div>
+          <p class="system-desc">Everything I do for training, food and recovery. I&rsquo;ve been at it for years and figured out what works and what doesn&rsquo;t. No influencer crap.</p>
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-num">N&deg; 03</div>
+        <div class="system-body">
+          <div class="system-name">The Travel <em>System</em></div>
+          <p class="system-desc">I&rsquo;ve been to 22+ countries and travelled for years. Thirty destinations in this one. The hotels I&rsquo;d actually book, the places to skip, how I plan and book.</p>
+        </div>
+      </div>
+
+      <div class="system">
+        <div class="system-num">N&deg; 04</div>
+        <div class="system-body">
+          <div class="system-name">The Income <em>System</em></div>
+          <p class="system-desc">All the tools, software and AI I use to build my businesses and make money online. The exact setup. Took me years to figure out, all in one place.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="signoff">
+      <p>That&rsquo;s it for now. Talk soon.</p>
+      <div class="author">&mdash; Keit</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom">
+    <div class="bottom-line"></div>
+    <div class="bottom-text">Coming Soon &middot; evlved.com</div>
+  </div>
+
+</div>
+
+</body>
+</html>
