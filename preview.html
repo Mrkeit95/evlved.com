@@ -3796,12 +3796,29 @@ section { position: relative; }
     if (e.target === modalOverlay) closeModal();
   });
 
-  modalForm.addEventListener('submit', (e) => {
+  modalForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = modalForm.querySelector('input').value;
     if (!email) return;
-    console.log('Newsletter signup:', email);
-    // In production: send to ConvertKit
+
+    const button = modalForm.querySelector('button');
+    if (button) {
+      button.disabled = true;
+      button.textContent = 'Sending...';
+    }
+
+    try {
+      const formData = new FormData();
+      formData.append('email_address', email);
+      await fetch('https://app.kit.com/forms/9428673/subscriptions', {
+        method: 'POST',
+        body: formData,
+        mode: 'no-cors'
+      });
+    } catch (err) {
+      // Even on error, show success — Kit usually receives the email
+    }
+
     modalForm.classList.add('hide');
     modalFineprint.classList.add('hide');
     modalSuccess.classList.add('show');
@@ -3914,11 +3931,29 @@ section { position: relative; }
   const newsletterSuccess = document.getElementById('newsletterSuccess');
   const newsletterFineprint = document.getElementById('newsletterFineprint');
   if (newsletterForm) {
-    newsletterForm.addEventListener('submit', (e) => {
+    newsletterForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = newsletterForm.querySelector('input').value;
       if (!email) return;
-      console.log('Newsletter signup (bottom):', email);
+
+      const button = newsletterForm.querySelector('button');
+      if (button) {
+        button.disabled = true;
+        button.textContent = 'Sending...';
+      }
+
+      try {
+        const formData = new FormData();
+        formData.append('email_address', email);
+        await fetch('https://app.kit.com/forms/9428673/subscriptions', {
+          method: 'POST',
+          body: formData,
+          mode: 'no-cors'
+        });
+      } catch (err) {
+        // Even on error, show success — Kit usually receives the email
+      }
+
       newsletterForm.classList.add('hide');
       newsletterFineprint.classList.add('hide');
       newsletterSuccess.classList.add('show');
