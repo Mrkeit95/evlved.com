@@ -401,14 +401,15 @@ body::after {
 .hero-headline .gold { color: var(--gold); font-weight: 200; font-style: italic; }
 .hero-headline .word {
   display: inline-block;
-  overflow: hidden;
-  padding-bottom: 0.15em;
-  margin-bottom: -0.15em;
+  overflow: visible;
+  padding-bottom: 0.2em;
 }
 .hero-headline .word > span {
   display: inline-block;
+  overflow: hidden;
   transform: translateY(105%);
   animation: lineUp 1.2s var(--ease) forwards;
+  padding-bottom: 0.15em;
 }
 .hero-headline .word:nth-child(1) > span { animation-delay: 1.7s; }
 .hero-headline .word:nth-child(2) > span { animation-delay: 1.85s; }
