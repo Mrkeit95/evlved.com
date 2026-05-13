@@ -3758,18 +3758,29 @@ section { position: relative; }
     });
   });
 
+  // Stripe payment links
+  const STRIPE_LINKS = {
+    discipline: 'https://buy.stripe.com/6oUeV65kB4sLeX7ayN63K04',
+    fitness:    'https://buy.stripe.com/8x228k8wN2kD7uF22h63K03',
+    travel:     'https://buy.stripe.com/14A14g7sJaR9bKVgXb63K02',
+    income:     'https://buy.stripe.com/3cI8wI6oF1gzbKVdKZ63K01',
+    bundle:     'https://buy.stripe.com/bJedR2bIZbVd2al8qF63K00',
+  };
+
   cartCheckout.addEventListener('click', () => {
     if (cart.length === 0) return;
-    const itemsList = cart.map(it => `${it.name} ($${it.price})`).join('\n');
-    const total = cart.reduce((sum, it) => sum + it.price, 0);
-    const ok = window.confirm(`Checking out ${cart.length} item(s):\n\n${itemsList}\n\nTotal: $${total}\n\n[In production: redirects to Stripe]\nClick OK to preview the post-purchase Access Page.`);
-    if (ok) {
-      cart = [];
-      saveCart();
-      renderCart();
-      closeCart();
-      showAccess();
+    // If only one item in cart, go directly to its Stripe link
+    if (cart.length === 1) {
+      const link = STRIPE_LINKS[cart[0].id];
+      if (link) { window.location.href = link; return; }
     }
+    // Multiple items — send to bundle link if bundle is in cart, otherwise use the highest-value item's link
+    const hasBundle = cart.find(it => it.id === 'bundle');
+    if (hasBundle) { window.location.href = STRIPE_LINKS.bundle; return; }
+    // Otherwise redirect to the most expensive item's link
+    const top = cart.slice().sort((a, b) => b.price - a.price)[0];
+    const link = STRIPE_LINKS[top.id];
+    if (link) { window.location.href = link; }
   });
 
   renderCart();
@@ -3917,8 +3928,9 @@ section { position: relative; }
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       e.stopPropagation();
+      const link = STRIPE_LINKS[btn.dataset.id];
+      if (link) { window.location.href = link; return; }
       addToCart(btn.dataset.id, btn.dataset.name, btn.dataset.price);
-      // Update the button visual to "Added"
       btn.classList.add('added');
       btn.textContent = 'In Cart';
     });
