@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>EVLVED — Order Confirmed</title>
+<meta name="description" content="Your order is confirmed. Download your system below." />
+<meta name="robots" content="noindex" />
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -32 100 60'%3E%3Cpolyline points='-44,18 0,-26 44,18' fill='none' stroke='%23c9a961' stroke-width='3' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-soft: #131313;
+    --ink: #f4efe6;
+    --ink-soft: rgba(244, 239, 230, 0.78);
+    --ink-dim: rgba(244, 239, 230, 0.5);
+    --ink-faint: rgba(244, 239, 230, 0.18);
+    --gold: #c9a961;
+    --gold-soft: rgba(201, 169, 97, 0.18);
+    --line: rgba(244, 239, 230, 0.08);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html, body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-weight: 300;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(201, 169, 97, 0.07) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(201, 169, 97, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 32px 48px;
+    z-index: 1;
+  }
+
+  /* TOP BAR */
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+  }
+  .top-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+  }
+  .top-left svg {
+    width: 28px;
+    height: 17px;
+    color: var(--gold);
+  }
+  .top-left span {
+    font-size: 11px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-left: 0.5em;
+  }
+  .top-right {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+
+  /* MAIN */
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 72px 20px 60px;
+    animation: fadeUp 1.2s var(--ease) both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* CHECK MARK */
+  .check-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: 1px solid var(--gold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    animation: scaleIn 0.6s var(--ease) 0.2s both;
+  }
+  @keyframes scaleIn {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .check-wrap svg {
+    width: 28px;
+    height: 28px;
+    stroke: var(--gold);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* EYEBROW */
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.55em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 24px;
+    padding-left: 0.55em;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .eyebrow::before, .eyebrow::after {
+    content: '';
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.4;
+  }
+
+  /* HEADLINE */
+  .headline {
+    font-size: clamp(2.25rem, 5vw, 3.75rem);
+    line-height: 1.1;
+    font-weight: 200;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .headline em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 200;
+  }
+
+  .subhead {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    font-weight: 300;
+    max-width: 480px;
+    margin: 0 auto 64px;
+    letter-spacing: 0.01em;
+  }
+
+  /* PRODUCT CARD */
+  .product-card {
+    width: 100%;
+    max-width: 560px;
+    background: var(--bg-soft);
+    border: 1px solid rgba(201, 169, 97, 0.25);
+    padding: 2.5rem 2.5rem 2rem;
+    text-align: left;
+    position: relative;
+    margin-bottom: 48px;
+  }
+  .product-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent);
+    opacity: 0.6;
+  }
+
+  .product-label {
+    font-size: 9px;
+    letter-spacing: 0.5em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    padding-left: 0.5em;
+  }
+  .product-name {
+    font-size: 1.75rem;
+    font-weight: 200;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+    line-height: 1.15;
+    margin-bottom: 0.75rem;
+  }
+  .product-name em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .product-desc {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    font-weight: 300;
+    margin-bottom: 1.75rem;
+    letter-spacing: 0.01em;
+  }
+
+  /* BUNDLE ITEMS */
+  .bundle-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+    padding-top: 0.25rem;
+  }
+  .bundle-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+  .bundle-item::before {
+    content: '';
+    width: 12px;
+    height: 1px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  /* DOWNLOAD BUTTONS */
+  .download-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    border-top: 1px solid var(--line);
+    padding-top: 1.5rem;
+  }
+  .download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.25rem;
+    background: var(--gold);
+    color: var(--bg);
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    transition: background 0.3s var(--ease), color 0.3s var(--ease);
+    border: 1px solid var(--gold);
+  }
+  .download-btn:hover {
+    background: transparent;
+    color: var(--gold);
+  }
+  .download-btn .arrow {
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0;
+  }
+
+  /* SIGN OFF */
+  .signoff {
+    max-width: 420px;
+    text-align: center;
+  }
+  .signoff p {
+    font-size: 14px;
+    line-height: 1.75;
+    color: var(--ink-dim);
+    font-weight: 300;
+    margin-bottom: 16px;
+    letter-spacing: 0.01em;
+  }
+  .signoff a { color: var(--gold); text-decoration: none; }
+  .signoff .author {
+    font-size: 10px;
+    letter-spacing: 0.45em;
+    color: var(--gold);
+    text-transform: uppercase;
+    font-weight: 500;
+    padding-left: 0.45em;
+  }
+
+  /* BOTTOM */
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding-top: 40px;
+  }
+  .bottom-line {
+    width: 28px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.35;
+  }
+  .bottom-text {
+    font-size: 9px;
+    letter-spacing: 0.55em;
+    color: var(--ink-dim);
+    text-transform: uppercase;
+    font-weight: 400;
+    padding-left: 0.55em;
+  }
+
+  /* FALLBACK (unknown product) */
+  .fallback {
+    max-width: 480px;
+    text-align: center;
+    padding: 2rem;
+    border: 1px solid var(--line);
+  }
+  .fallback p {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 24px 20px; }
+    .main { padding: 48px 0 40px; }
+    .headline { font-size: 2rem; }
+    .subhead { font-size: 15px; margin-bottom: 44px; }
+    .product-card { padding: 2rem 1.5rem 1.75rem; }
+    .product-name { font-size: 1.5rem; }
+    .eyebrow::before, .eyebrow::after { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- TOP -->
+  <div class="top">
+    <a href="/" class="top-left">
+      <svg viewBox="-50 -32 100 60" xmlns="http://www.w3.org/2000/svg">
+        <polyline points="-44,18 0,-26 44,18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/>
+        <polyline points="-30,8 0,-22 30,8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" opacity="0.7"/>
+        <polyline points="-16,-2 0,-18 16,-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" opacity="0.45"/>
+      </svg>
+      <span>EVLVED</span>
+    </a>
+    <div class="top-right">Order Confirmed</div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <div class="check-wrap">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+
+    <div class="eyebrow">Purchase Confirmed</div>
+
+    <h1 class="headline">Welcome to <em>EVLVED.</em></h1>
+
+    <p class="subhead">Your system is ready to download. A receipt and backup link is on its way to your inbox.</p>
+
+    <!-- Dynamically populated by JS -->
+    <div id="productCard"></div>
+
+    <div class="signoff">
+      <p>Questions? Email me at <a href="mailto:keitcollabs@gmail.com">keitcollabs@gmail.com</a>.<br/>Make the systems work.</p>
+      <div class="author">&mdash; Keit</div>
+    </div>
+
+  </div>
+
+  <!-- BOTTOM -->
+  <div class="bottom">
+    <div class="bottom-line"></div>
+    <div class="bottom-text">EVLVED &middot; Evolve Beyond</div>
+  </div>
+
+</div>
+
+<script>
+  // Product data — update file paths if you rename the PDFs
+  const PRODUCTS = {
+    discipline: {
+      label:   'N° 01 · The Foundation',
+      name:    'The Discipline <em>System.</em>',
+      desc:    'Habits, routines, environment design, and the mental frameworks that make the work happen every single day.',
+      files:   [{ label: 'Download — Discipline System', href: 'Discipline system.pdf' }],
+    },
+    fitness: {
+      label:   'N° 02 · The Body',
+      name:    'The Fitness <em>System.</em>',
+      desc:    'Real training, real food, real recovery. Built to work in a full gym, a hotel room, or with nothing at all.',
+      files:   [{ label: 'Download — Fitness System', href: 'Fitness system.pdf' }],
+    },
+    travel: {
+      label:   'N° 03 · The World',
+      name:    'The Travel <em>System.</em>',
+      desc:    '30 destinations. 191 hotels. The flights, bookings, apps, and logistics playbook from 22+ countries of real travel.',
+      files:   [{ label: 'Download — Travel System', href: 'Travel system.pdf' }],
+    },
+    income: {
+      label:   'N° 04 · The Capital',
+      name:    'The Income <em>System.</em>',
+      desc:    'The full tool stack, AI workflows, and business playbooks I use to build online. The exact setup, all in one place.',
+      files:   [{ label: 'Download — Income System', href: 'Income system.pdf' }],
+    },
+    bundle: {
+      label:   'The Complete Set · All Four',
+      name:    'The Complete <em>Bundle.</em>',
+      desc:    'All four systems. Discipline. Fitness. Travel. Income. Everything I actually use.',
+      bundle:  true,
+      files:   [
+        { label: 'Download — Discipline System', href: 'Discipline system.pdf' },
+        { label: 'Download — Fitness System',    href: 'Fitness system.pdf' },
+        { label: 'Download — Travel System',     href: 'Travel system.pdf' },
+        { label: 'Download — Income System',     href: 'Income system.pdf' },
+      ],
+    },
+  };
+
+  const BUNDLE_ITEMS = ['Discipline System', 'Fitness System', 'Travel System', 'Income System'];
+
+  function getProduct() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('product') || '';
+  }
+
+  function render() {
+    const key     = getProduct().toLowerCase();
+    const product = PRODUCTS[key];
+    const card    = document.getElementById('productCard');
+
+    if (!product) {
+      // Unknown or missing product param — show a generic fallback
+      card.innerHTML = `
+        <div class="fallback">
+          <p>Your purchase is confirmed. Check your inbox for your receipt and download link. If you need help, email <a href="mailto:keitcollabs@gmail.com" style="color:var(--gold);">keitcollabs@gmail.com</a>.</p>
+        </div>`;
+      return;
+    }
+
+    const bundleHTML = product.bundle ? `
+      <div class="bundle-items">
+        ${BUNDLE_ITEMS.map(i => `<div class="bundle-item">${i}</div>`).join('')}
+      </div>` : '';
+
+    const buttonsHTML = product.files.map(f => `
+      <a class="download-btn" href="${f.href}" download>
+        <span>${f.label}</span>
+        <span class="arrow">↓</span>
+      </a>`).join('');
+
+    card.innerHTML = `
+      <div class="product-card">
+        <div class="product-label">${product.label}</div>
+        <div class="product-name">${product.name}</div>
+        <p class="product-desc">${product.desc}</p>
+        ${bundleHTML}
+        <div class="download-wrap">
+          ${buttonsHTML}
+        </div>
+      </div>`;
+  }
+
+  render();
+</script>
+
+</body>
+</html>
