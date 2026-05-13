@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" />
 
 <style>
 /* =========================================================
@@ -402,14 +403,11 @@ body::after {
 .hero-headline .word {
   display: inline-block;
   overflow: visible;
-  padding-bottom: 0.2em;
 }
 .hero-headline .word > span {
   display: inline-block;
-  overflow: hidden;
-  transform: translateY(105%);
+  transform: translateY(110%);
   animation: lineUp 1.2s var(--ease) forwards;
-  padding-bottom: 0.15em;
 }
 .hero-headline .word:nth-child(1) > span { animation-delay: 1.7s; }
 .hero-headline .word:nth-child(2) > span { animation-delay: 1.85s; }
@@ -2664,7 +2662,7 @@ section { position: relative; }
 
   <!-- Background video (Aesop-style full-bleed) -->
   <video class="hero-video"
-    autoplay muted loop playsinline preload="metadata"
+    autoplay muted loop playsinline preload="none"
     poster="https://images.pexels.com/videos/35486667/pexels-photo-35486667.jpeg?auto=compress&cs=tinysrgb&h=1080"
     aria-hidden="true">
     <source src="https://videos.pexels.com/video-files/35486667/15033410_1440_2560_30fps.mp4" type="video/mp4" />
@@ -2708,7 +2706,7 @@ section { position: relative; }
 <section class="about" id="about">
   <div class="about-grid">
     <div class="about-image reveal">
-      <img src="images/image_001.jpg" alt="Keit, founder of EVLVED" />
+      <img src="images/image_001.jpg" alt="Keit, founder of EVLVED" loading="eager" fetchpriority="high" />
     </div>
     <div class="about-text">
       <div class="section-label reveal">The Author</div>
@@ -2748,7 +2746,7 @@ section { position: relative; }
 
   <!-- Background video - B&W misty mountains -->
   <video class="systems-video"
-    autoplay muted loop playsinline preload="metadata"
+    autoplay muted loop playsinline preload="none"
     poster="https://images.pexels.com/videos/13457342/pexels-photo-13457342.jpeg?auto=compress&cs=tinysrgb&h=1080"
     aria-hidden="true">
     <source src="https://videos.pexels.com/video-files/13457342/13457342-uhd_3840_2160_30fps.mp4" type="video/mp4" />
@@ -3617,8 +3615,8 @@ section { position: relative; }
   // PRELOADER
   const preloader = document.getElementById('preloader');
   function dismissPreloader() { if (preloader) preloader.classList.add('done'); }
-  setTimeout(dismissPreloader, 4200);
-  window.addEventListener('load', () => setTimeout(dismissPreloader, 3600));
+  setTimeout(dismissPreloader, 2800);
+  window.addEventListener('load', () => setTimeout(dismissPreloader, 2200));
 
   // ============================================
   // VIDEO PLAYBACK RATES. set on each background video
