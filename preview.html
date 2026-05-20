@@ -1942,37 +1942,6 @@ section { position: relative; }
 .cart-separate-toggle.show { display: block; }
 .cart-separate-toggle:hover { color: var(--gold); }
 
-.cart-separate-note {
-  display: none;
-  text-align: center;
-  font-size: 0.6rem;
-  letter-spacing: 0.35em;
-  text-transform: uppercase;
-  color: var(--ink-dim);
-  padding: 0.7rem 0;
-  padding-left: 0.35em;
-}
-.cart-separate-note.show { display: block; }
-
-.cart-item-buy {
-  background: var(--gold);
-  color: var(--bg);
-  border: 1px solid var(--gold);
-  padding: 0.55rem 0.9rem;
-  font-size: 0.6rem;
-  font-weight: 500;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  cursor: pointer;
-  font-family: var(--sans);
-  text-decoration: none;
-  display: inline-block;
-  transition: all 0.4s var(--ease);
-  padding-left: calc(0.9rem + 0.3em);
-  white-space: nowrap;
-}
-.cart-item-buy:hover { background: transparent; color: var(--gold); }
-
 /* ============================================
    NEWSLETTER MODAL
 ============================================ */
@@ -3062,7 +3031,6 @@ section { position: relative; }
       Buying multiple? Get the <span class="gold">Bundle</span> — all four for $99. Better deal.
     </div>
     <button class="cart-checkout" id="cartCheckout" disabled>Proceed to Checkout</button>
-    <div class="cart-separate-note" id="cartSeparateNote">Each opens in a new tab.</div>
     <button class="cart-separate-toggle" id="cartSeparateToggle" type="button">or buy these separately</button>
   </div>
 </aside>
@@ -3764,7 +3732,6 @@ section { position: relative; }
   const cartCheckout = document.getElementById('cartCheckout');
   const cartBundleNudge = document.getElementById('cartBundleNudge');
   const cartSeparateToggle = document.getElementById('cartSeparateToggle');
-  const cartSeparateNote = document.getElementById('cartSeparateNote');
 
   // Stripe payment links
   const STRIPE_LINKS = {
@@ -3799,29 +3766,21 @@ section { position: relative; }
       cartBody.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
       cartTotal.textContent = '$0';
       cartCheckout.disabled = true;
-      cartCheckout.style.display = '';
       cartCheckout.textContent = 'Proceed to Checkout';
       cartBundleNudge.classList.remove('show');
       cartSeparateToggle.classList.remove('show');
-      cartSeparateNote.classList.remove('show');
     } else {
-      cartBody.innerHTML = cart.map((item, i) => {
-        const link = STRIPE_LINKS[item.id];
-        const rightHTML = separateMode && link
-          ? `<a class="cart-item-buy" href="${link}" target="_blank" rel="noopener">Buy ${formatMoney(item.price)}</a>`
-          : `<div class="cart-item-price">${formatMoney(item.price)}</div>`;
-        return `
+      cartBody.innerHTML = cart.map((item, i) => `
         <div class="cart-item">
           <div>
             <div class="cart-item-name">${item.name}</div>
             <div class="cart-item-tag">EVLVED · Vol. ${String(i + 1).padStart(2, '0')}</div>
           </div>
           <div class="cart-item-right">
-            ${rightHTML}
+            <div class="cart-item-price">${formatMoney(item.price)}</div>
             <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">Remove</button>
           </div>
-        </div>`;
-      }).join('');
+        </div>`).join('');
 
       const total = cart.reduce((sum, it) => sum + it.price, 0);
       cartTotal.textContent = formatMoney(total);
@@ -3829,26 +3788,21 @@ section { position: relative; }
 
       if (isMultiNoBundle && !separateMode) {
         // Bundle-upsell mode (default for multi-item carts)
-        cartCheckout.style.display = '';
         cartCheckout.textContent = 'Get the Bundle — $99';
         cartBundleNudge.classList.add('show');
         cartSeparateToggle.classList.add('show');
         cartSeparateToggle.textContent = 'or buy these separately';
-        cartSeparateNote.classList.remove('show');
       } else if (isMultiNoBundle && separateMode) {
-        // Per-item buy mode — each row has its own Buy button
-        cartCheckout.style.display = 'none';
+        // Buy-only-what's-in-the-cart mode (one Stripe Checkout, multiple line items)
+        cartCheckout.textContent = 'Continue Checkout';
         cartBundleNudge.classList.remove('show');
-        cartSeparateNote.classList.add('show');
         cartSeparateToggle.classList.add('show');
         cartSeparateToggle.textContent = 'or get the Bundle ($99)';
       } else {
         // Single item, or bundle already in cart — straight checkout
-        cartCheckout.style.display = '';
         cartCheckout.textContent = 'Proceed to Checkout';
         cartBundleNudge.classList.remove('show');
         cartSeparateToggle.classList.remove('show');
-        cartSeparateNote.classList.remove('show');
       }
     }
 
@@ -3905,19 +3859,48 @@ section { position: relative; }
     });
   });
 
+  async function checkoutSelectedItems() {
+    const originalText = cartCheckout.textContent;
+    cartCheckout.disabled = true;
+    cartCheckout.textContent = 'Loading…';
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart.map(it => it.id) }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.url) {
+        window.location.href = data.url;
+        return;
+      }
+      throw new Error(data.error || 'Checkout failed');
+    } catch (err) {
+      console.error(err);
+      cartCheckout.disabled = false;
+      cartCheckout.textContent = originalText;
+      alert("Couldn't start checkout. Try again, or email info@evlved.com.");
+    }
+  }
+
   cartCheckout.addEventListener('click', () => {
     if (cart.length === 0) return;
     const hasBundle = cart.some(it => it.id === 'bundle');
-    // Bundle in cart → bundle checkout
+    // Bundle in cart → bundle checkout (existing Stripe payment link)
     if (hasBundle) { window.location.href = STRIPE_LINKS.bundle; return; }
-    // Single item → that item's checkout
+    // Single item → that item's existing Stripe payment link
     if (cart.length === 1) {
       const link = STRIPE_LINKS[cart[0].id];
       if (link) { window.location.href = link; return; }
     }
-    // Multi-item without bundle → bundle (UI has already nudged toward it;
-    // users who want individual items use the "buy separately" toggle).
-    window.location.href = STRIPE_LINKS.bundle;
+    // Multi-item without bundle
+    if (separateMode) {
+      // Buy what's in the cart in one go via the Stripe Checkout Session API
+      checkoutSelectedItems();
+    } else {
+      // Bundle upsell — the UI is already nudging toward it
+      window.location.href = STRIPE_LINKS.bundle;
+    }
   });
 
   cartSeparateToggle.addEventListener('click', () => {

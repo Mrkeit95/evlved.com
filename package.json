@@ -1,0 +1,11 @@
+{
+  "name": "evlved",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "stripe": "^17.5.0"
+  }
+}

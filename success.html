@@ -454,25 +454,17 @@
 
   const BUNDLE_ITEMS = ['Discipline System', 'Fitness System', 'Travel System', 'Income System'];
 
-  function getProduct() {
+  function getProductKeys() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('product') || '';
+    const multi  = params.get('products');
+    if (multi) {
+      return multi.split(',').map(k => k.trim().toLowerCase()).filter(Boolean);
+    }
+    const single = params.get('product');
+    return single ? [single.toLowerCase()] : [];
   }
 
-  function render() {
-    const key     = getProduct().toLowerCase();
-    const product = PRODUCTS[key];
-    const card    = document.getElementById('productCard');
-
-    if (!product) {
-      // Unknown or missing product param — show a generic fallback
-      card.innerHTML = `
-        <div class="fallback">
-          <p>Your purchase is confirmed. Check your inbox for your receipt and download link. If you need help, email <a href="mailto:info@evlved.com" style="color:var(--gold);">info@evlved.com</a>.</p>
-        </div>`;
-      return;
-    }
-
+  function renderProductCard(product) {
     const bundleHTML = product.bundle ? `
       <div class="bundle-items">
         ${BUNDLE_ITEMS.map(i => `<div class="bundle-item">${i}</div>`).join('')}
@@ -484,7 +476,7 @@
         <span class="arrow">↓</span>
       </a>`).join('');
 
-    card.innerHTML = `
+    return `
       <div class="product-card">
         <div class="product-label">${product.label}</div>
         <div class="product-name">${product.name}</div>
@@ -494,6 +486,24 @@
           ${buttonsHTML}
         </div>
       </div>`;
+  }
+
+  function render() {
+    const products = getProductKeys()
+      .map(k => PRODUCTS[k])
+      .filter(Boolean);
+    const card = document.getElementById('productCard');
+
+    if (products.length === 0) {
+      // Unknown or missing param — show a generic fallback
+      card.innerHTML = `
+        <div class="fallback">
+          <p>Your purchase is confirmed. Check your inbox for your receipt and download link. If you need help, email <a href="mailto:info@evlved.com" style="color:var(--gold);">info@evlved.com</a>.</p>
+        </div>`;
+      return;
+    }
+
+    card.innerHTML = products.map(renderProductCard).join('');
   }
 
   render();
