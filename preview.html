@@ -2627,6 +2627,76 @@ section { position: relative; }
   .footer-brand { grid-column: span 1; }
   .footer-bottom { flex-direction: column; align-items: flex-start; }
 }
+
+/* ============================================================
+   RESPONSIVE POLISH
+   Laptop tier (≤1500px): pull section padding in from huge-monitor scale.
+   Phone tier  (≤500px):  tighter rhythm and typography across the board.
+============================================================ */
+
+/* Laptop polish — typical Mac viewports 1280–1440px */
+@media (min-width: 901px) and (max-width: 1500px) {
+  .about              { padding: 9rem 3rem; }
+  .systems            { padding: 9rem 3rem; }
+  .journey            { padding: 8rem 3rem 9rem; }
+  .coaching-section   { padding: 8rem 3rem 9rem; }
+  .newsletter-section { padding: 8rem 3rem 9rem; }
+  .systems-header     { margin-bottom: 6rem; }
+  .journey-header     { margin-bottom: 4.5rem; }
+  .top-bar            { padding: 1.4rem 2.25rem; }
+  .top-bar.scrolled   { padding: 1rem 2.25rem; }
+}
+
+/* Phone polish — everything tighter on small screens */
+@media (max-width: 500px) {
+  /* Hero */
+  .hero               { padding: 4rem 1.25rem 4.5rem; }
+  .hero-mark          { margin-bottom: 2.5rem; }
+  .hero-mark .chevron { width: 100px; height: 60px; }
+  .hero-mark .wordmark{ font-size: 0.72rem; margin-top: 1.25rem; }
+  .hero-mark .meaning { font-size: 0.5rem; margin-top: 0.55rem; }
+  .hero-headline      { font-size: 1.95rem; max-width: 17ch; margin: 0 auto 2rem; }
+  .hero-divider       { margin: 0 auto 2rem; }
+  .hero-sub           { font-size: 0.9rem; line-height: 1.7; margin: 0 auto 2.5rem; }
+
+  /* Top bar */
+  .top-bar            { padding: 1rem 1.25rem; }
+  .top-bar.scrolled   { padding: 0.85rem 1.25rem; }
+
+  /* About */
+  .about              { padding: 4.5rem 1.25rem; }
+  .about-grid         { gap: 2.75rem; }
+  .about-headline     { font-size: 1.85rem; margin-bottom: 1.75rem; }
+  .about-body         { font-size: 0.9rem; line-height: 1.75; }
+  .about-meta         { margin-top: 2rem; padding-top: 1.5rem; }
+
+  /* Systems */
+  .systems            { padding: 4.5rem 1.25rem; }
+  .systems-header     { margin-bottom: 2.75rem; }
+  .systems-headline   { font-size: 1.85rem; margin-bottom: 1.25rem; }
+  .systems-sub        { font-size: 0.9rem; line-height: 1.75; }
+  .system-card        { padding: 2.5rem 1.5rem 2rem; }
+  .system-num         { margin-bottom: 1.5rem; }
+  .system-name        { font-size: 1.6rem; margin-bottom: 1rem; }
+  .system-cover       { max-width: 220px; }
+
+  /* Journey */
+  .journey            { padding: 4rem 0.5rem 5rem; }
+  .journey-header     { margin-bottom: 2.5rem; }
+  .journey-title      { font-size: 1.85rem; margin-bottom: 1rem; }
+  .journey-tag        { font-size: 0.9rem; line-height: 1.7; }
+  .journey-item       { width: 220px; height: 290px; }
+
+  /* Coaching */
+  .coaching-section   { padding: 4.5rem 1.25rem 5rem; }
+  .coaching-title     { font-size: 1.95rem; }
+  .coaching-lead      { font-size: 1rem; }
+
+  /* Newsletter */
+  .newsletter-section { padding: 4.5rem 1.25rem 5rem; }
+  .newsletter-title   { font-size: 1.95rem; }
+  .newsletter-desc    { font-size: 0.9rem; line-height: 1.7; }
+}
 </style>
 </head>
 <body>
