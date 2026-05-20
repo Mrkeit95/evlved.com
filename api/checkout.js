@@ -41,7 +41,7 @@ export default async function handler(req, res) {
       mode: 'payment',
       line_items,
       success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}&products=${productList}`,
-      cancel_url: `${origin}/preview.html`,
+      cancel_url: `${origin}/`,
       allow_promotion_codes: true,
     });
 
