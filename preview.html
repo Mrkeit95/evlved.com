@@ -1909,6 +1909,70 @@ section { position: relative; }
 .cart-checkout:hover { background: transparent; color: var(--gold); }
 .cart-checkout:disabled { opacity: 0.4; cursor: not-allowed; }
 
+.cart-bundle-nudge {
+  display: none;
+  background: var(--gold-faint);
+  border: 1px solid var(--gold-soft);
+  padding: 1rem 1.2rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  letter-spacing: 0.01em;
+}
+.cart-bundle-nudge.show { display: block; }
+.cart-bundle-nudge .gold { color: var(--gold); font-weight: 500; }
+
+.cart-separate-toggle {
+  display: none;
+  width: 100%;
+  margin-top: 0.9rem;
+  background: none;
+  border: none;
+  color: var(--ink-dim);
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: var(--sans);
+  padding: 0.4rem;
+  padding-left: calc(0.4rem + 0.35em);
+  transition: color 0.3s var(--ease);
+}
+.cart-separate-toggle.show { display: block; }
+.cart-separate-toggle:hover { color: var(--gold); }
+
+.cart-separate-note {
+  display: none;
+  text-align: center;
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  padding: 0.7rem 0;
+  padding-left: 0.35em;
+}
+.cart-separate-note.show { display: block; }
+
+.cart-item-buy {
+  background: var(--gold);
+  color: var(--bg);
+  border: 1px solid var(--gold);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: var(--sans);
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.4s var(--ease);
+  padding-left: calc(0.9rem + 0.3em);
+  white-space: nowrap;
+}
+.cart-item-buy:hover { background: transparent; color: var(--gold); }
+
 /* ============================================
    NEWSLETTER MODAL
 ============================================ */
@@ -2994,7 +3058,12 @@ section { position: relative; }
       <div class="cart-total-label">Total</div>
       <div class="cart-total-amount" id="cartTotal">$0</div>
     </div>
+    <div class="cart-bundle-nudge" id="cartBundleNudge">
+      Buying multiple? Get the <span class="gold">Bundle</span> — all four for $99. Better deal.
+    </div>
     <button class="cart-checkout" id="cartCheckout" disabled>Proceed to Checkout</button>
+    <div class="cart-separate-note" id="cartSeparateNote">Each opens in a new tab.</div>
+    <button class="cart-separate-toggle" id="cartSeparateToggle" type="button">or buy these separately</button>
   </div>
 </aside>
 
@@ -3693,34 +3762,96 @@ section { position: relative; }
   const cartBody = document.getElementById('cartBody');
   const cartTotal = document.getElementById('cartTotal');
   const cartCheckout = document.getElementById('cartCheckout');
+  const cartBundleNudge = document.getElementById('cartBundleNudge');
+  const cartSeparateToggle = document.getElementById('cartSeparateToggle');
+  const cartSeparateNote = document.getElementById('cartSeparateNote');
+
+  // Stripe payment links
+  const STRIPE_LINKS = {
+    discipline: 'https://buy.stripe.com/6oUeV65kB4sLeX7ayN63K04',
+    fitness:    'https://buy.stripe.com/8x228k8wN2kD7uF22h63K03',
+    travel:     'https://buy.stripe.com/14A14g7sJaR9bKVgXb63K02',
+    income:     'https://buy.stripe.com/3cI8wI6oF1gzbKVdKZ63K01',
+    bundle:     'https://buy.stripe.com/bJedR2bIZbVd2al8qF63K00',
+  };
+
+  // When the cart has 2+ items with no bundle, default to bundle-upsell mode.
+  // The user can flip to per-item buy mode via the toggle.
+  let separateMode = false;
 
   function saveCart() {
     try { sessionStorage.setItem('evlved_cart', JSON.stringify(cart)); } catch(e) {}
   }
 
+  function formatMoney(n) {
+    return '$' + (Math.round(n * 100) / 100).toFixed(2).replace(/\.00$/, '');
+  }
+
   function renderCart() {
     cartCount.textContent = cart.length;
+
+    const hasBundle = cart.some(it => it.id === 'bundle');
+    const isMultiNoBundle = cart.length >= 2 && !hasBundle;
+    // Reset separate mode if it no longer applies
+    if (!isMultiNoBundle) separateMode = false;
+
     if (cart.length === 0) {
       cartBody.innerHTML = '<div class="cart-empty">Your cart is empty.</div>';
       cartTotal.textContent = '$0';
       cartCheckout.disabled = true;
+      cartCheckout.style.display = '';
+      cartCheckout.textContent = 'Proceed to Checkout';
+      cartBundleNudge.classList.remove('show');
+      cartSeparateToggle.classList.remove('show');
+      cartSeparateNote.classList.remove('show');
     } else {
-      cartBody.innerHTML = cart.map((item, i) => `
+      cartBody.innerHTML = cart.map((item, i) => {
+        const link = STRIPE_LINKS[item.id];
+        const rightHTML = separateMode && link
+          ? `<a class="cart-item-buy" href="${link}" target="_blank" rel="noopener">Buy ${formatMoney(item.price)}</a>`
+          : `<div class="cart-item-price">${formatMoney(item.price)}</div>`;
+        return `
         <div class="cart-item">
           <div>
             <div class="cart-item-name">${item.name}</div>
             <div class="cart-item-tag">EVLVED · Vol. ${String(i + 1).padStart(2, '0')}</div>
           </div>
           <div class="cart-item-right">
-            <div class="cart-item-price">$${item.price}</div>
+            ${rightHTML}
             <button class="cart-item-remove" onclick="removeFromCart('${item.id}')">Remove</button>
           </div>
-        </div>
-      `).join('');
+        </div>`;
+      }).join('');
+
       const total = cart.reduce((sum, it) => sum + it.price, 0);
-      cartTotal.textContent = '$' + total;
+      cartTotal.textContent = formatMoney(total);
       cartCheckout.disabled = false;
+
+      if (isMultiNoBundle && !separateMode) {
+        // Bundle-upsell mode (default for multi-item carts)
+        cartCheckout.style.display = '';
+        cartCheckout.textContent = 'Get the Bundle — $99';
+        cartBundleNudge.classList.add('show');
+        cartSeparateToggle.classList.add('show');
+        cartSeparateToggle.textContent = 'or buy these separately';
+        cartSeparateNote.classList.remove('show');
+      } else if (isMultiNoBundle && separateMode) {
+        // Per-item buy mode — each row has its own Buy button
+        cartCheckout.style.display = 'none';
+        cartBundleNudge.classList.remove('show');
+        cartSeparateNote.classList.add('show');
+        cartSeparateToggle.classList.add('show');
+        cartSeparateToggle.textContent = 'or get the Bundle ($99)';
+      } else {
+        // Single item, or bundle already in cart — straight checkout
+        cartCheckout.style.display = '';
+        cartCheckout.textContent = 'Proceed to Checkout';
+        cartBundleNudge.classList.remove('show');
+        cartSeparateToggle.classList.remove('show');
+        cartSeparateNote.classList.remove('show');
+      }
     }
+
     // Update Add to Cart button states (both card buttons + detail modal buttons)
     document.querySelectorAll('.add-to-cart, .detail-add-to-cart').forEach(btn => {
       if (btn.disabled) return;
@@ -3774,29 +3905,24 @@ section { position: relative; }
     });
   });
 
-  // Stripe payment links
-  const STRIPE_LINKS = {
-    discipline: 'https://buy.stripe.com/6oUeV65kB4sLeX7ayN63K04',
-    fitness:    'https://buy.stripe.com/8x228k8wN2kD7uF22h63K03',
-    travel:     'https://buy.stripe.com/14A14g7sJaR9bKVgXb63K02',
-    income:     'https://buy.stripe.com/3cI8wI6oF1gzbKVdKZ63K01',
-    bundle:     'https://buy.stripe.com/bJedR2bIZbVd2al8qF63K00',
-  };
-
   cartCheckout.addEventListener('click', () => {
     if (cart.length === 0) return;
-    // If only one item in cart, go directly to its Stripe link
+    const hasBundle = cart.some(it => it.id === 'bundle');
+    // Bundle in cart → bundle checkout
+    if (hasBundle) { window.location.href = STRIPE_LINKS.bundle; return; }
+    // Single item → that item's checkout
     if (cart.length === 1) {
       const link = STRIPE_LINKS[cart[0].id];
       if (link) { window.location.href = link; return; }
     }
-    // Multiple items — send to bundle link if bundle is in cart, otherwise use the highest-value item's link
-    const hasBundle = cart.find(it => it.id === 'bundle');
-    if (hasBundle) { window.location.href = STRIPE_LINKS.bundle; return; }
-    // Otherwise redirect to the most expensive item's link
-    const top = cart.slice().sort((a, b) => b.price - a.price)[0];
-    const link = STRIPE_LINKS[top.id];
-    if (link) { window.location.href = link; }
+    // Multi-item without bundle → bundle (UI has already nudged toward it;
+    // users who want individual items use the "buy separately" toggle).
+    window.location.href = STRIPE_LINKS.bundle;
+  });
+
+  cartSeparateToggle.addEventListener('click', () => {
+    separateMode = !separateMode;
+    renderCart();
   });
 
   renderCart();
