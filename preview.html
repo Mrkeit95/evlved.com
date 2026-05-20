@@ -72,20 +72,6 @@ body::after {
   z-index: 2;
 }
 
-.cursor {
-  position: fixed;
-  width: 6px; height: 6px;
-  background: var(--ink);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 9999;
-  mix-blend-mode: difference;
-  transition: width 0.4s var(--ease), height 0.4s var(--ease);
-  transform: translate(-50%, -50%);
-}
-.cursor.hover { width: 36px; height: 36px; }
-@media (max-width: 900px) { .cursor { display: none; } }
-
 /* PRELOADER */
 .preloader {
   position: fixed; inset: 0;
@@ -2658,9 +2644,6 @@ section { position: relative; }
   </div>
 </div>
 
-<!-- CURSOR -->
-<div class="cursor" id="cursor"></div>
-
 <!-- TOP BAR -->
 <header class="top-bar" id="topBar">
   <a href="#" class="nav-logo">
@@ -3671,23 +3654,6 @@ section { position: relative; }
   setVideoRate('.hero-video', 1.4);     // slightly faster - more energy
   setVideoRate('.systems-video', 0.7);  // slow down the misty mountains a touch
   setVideoRate('.stats-video', 0.35);   // drastically slow the rolling clouds (was dizzying)
-
-  // CURSOR
-  const cursor = document.getElementById('cursor');
-  let cx = 0, cy = 0, tx = 0, ty = 0;
-  document.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
-  function tick() {
-    cx += (tx - cx) * 0.16;
-    cy += (ty - cy) * 0.16;
-    cursor.style.left = cx + 'px';
-    cursor.style.top = cy + 'px';
-    requestAnimationFrame(tick);
-  }
-  tick();
-  document.querySelectorAll('a, button, .system-card, .journey-item, input').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-  });
 
   // NAV
   const topBar = document.getElementById('topBar');
