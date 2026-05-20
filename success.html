@@ -7,6 +7,23 @@
 <meta name="description" content="Your order is confirmed. Download your system below." />
 <meta name="robots" content="noindex" />
 
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2122540538527434');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2122540538527434&ev=PageView&noscript=1" alt="" /></noscript>
+<!-- End Meta Pixel Code -->
+
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-50 -32 100 60'%3E%3Cpolyline points='-44,18 0,-26 44,18' fill='none' stroke='%23c9a961' stroke-width='3' stroke-linecap='square' stroke-linejoin='miter'/%3E%3C/svg%3E" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -454,6 +471,15 @@
 
   const BUNDLE_ITEMS = ['Discipline System', 'Fitness System', 'Travel System', 'Income System'];
 
+  // For the Meta Pixel Purchase event value
+  const PRICES = {
+    discipline: 19.99,
+    fitness:    19.99,
+    travel:     39.99,
+    income:     59.99,
+    bundle:     99,
+  };
+
   function getProductKeys() {
     const params = new URLSearchParams(window.location.search);
     const multi  = params.get('products');
@@ -488,6 +514,28 @@
       </div>`;
   }
 
+  function trackPurchase() {
+    if (typeof fbq !== 'function') return;
+    const keys = getProductKeys();
+    if (keys.length === 0) return;
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id') || '';
+    // Dedupe within the same tab so a refresh doesn't double-fire
+    const flagKey = 'fb_purchase_' + (sessionId || keys.join(','));
+    try {
+      if (sessionStorage.getItem(flagKey) === '1') return;
+      sessionStorage.setItem(flagKey, '1');
+    } catch(e) {}
+    const value = keys.reduce((sum, k) => sum + (PRICES[k] || 0), 0);
+    fbq('track', 'Purchase', {
+      value: Math.round(value * 100) / 100,
+      currency: 'USD',
+      content_ids: keys,
+      content_type: 'product',
+      num_items: keys.length,
+    });
+  }
+
   function render() {
     const products = getProductKeys()
       .map(k => PRODUCTS[k])
@@ -504,6 +552,7 @@
     }
 
     card.innerHTML = products.map(renderProductCard).join('');
+    trackPurchase();
   }
 
   render();
