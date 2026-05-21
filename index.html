@@ -2487,6 +2487,276 @@ section { position: relative; }
   .press-article { grid-template-columns: 1fr; gap: 1.5rem; }
 }
 
+/* ============================================================
+   SALES PAGE — long-form layout used inside .page-modal
+   Reusable component system (sp- prefix) for all four systems.
+============================================================ */
+.sales-page { width: 100%; }
+.sp-inner { max-width: 1080px; margin: 0 auto; padding: 0 3rem; }
+.sp-inner-narrow { max-width: 760px; margin: 0 auto; padding: 0 3rem; }
+
+.sp-section { padding: 7.5rem 0; position: relative; }
+.sp-section.alt { background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+.sp-eyebrow {
+  font-size: 0.6rem; letter-spacing: 0.5em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 1.5rem;
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.sp-eyebrow.center { justify-content: center; }
+.sp-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+.sp-eyebrow.center::after { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+.sp-h2 {
+  font-weight: 200; font-size: clamp(1.9rem, 3.6vw, 3rem);
+  line-height: 1.18; letter-spacing: 0.01em; color: var(--ink); margin-bottom: 1.5rem;
+}
+.sp-h2 .gold { color: var(--gold); font-style: italic; }
+.sp-lead {
+  font-size: 1.05rem; line-height: 1.85; color: var(--ink-soft);
+  font-weight: 300; max-width: 42rem;
+}
+.sp-lead.center { margin-left: auto; margin-right: auto; text-align: center; }
+.sp-head-center { text-align: center; margin-bottom: 4rem; }
+
+/* CTA buttons */
+.sp-cta {
+  display: inline-flex; align-items: center; gap: 0.6rem;
+  background: var(--gold); color: var(--bg); border: 1px solid var(--gold);
+  font-family: var(--sans); font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.28em; text-transform: uppercase; cursor: pointer;
+  padding: 1.25rem 2.6rem; padding-left: calc(2.6rem + 0.28em);
+  transition: all 0.45s var(--ease);
+}
+.sp-cta:hover { background: transparent; color: var(--gold); }
+
+/* HERO */
+.sp-hero {
+  min-height: 90vh; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; text-align: center;
+  padding: 7rem 2rem; position: relative; overflow: hidden;
+}
+.sp-hero::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse 900px 560px at 50% 38%, rgba(201,169,97,0.12), transparent 64%),
+    radial-gradient(ellipse 700px 700px at 50% 100%, rgba(201,169,97,0.05), transparent 60%);
+}
+.sp-hero > * { position: relative; z-index: 1; }
+.sp-hero-eyebrow {
+  font-size: 0.65rem; letter-spacing: 0.55em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 2rem; padding-left: 0.55em;
+}
+.sp-hero-headline {
+  font-weight: 200; font-size: clamp(2.4rem, 6vw, 5rem);
+  line-height: 1.12; letter-spacing: 0.01em; color: var(--ink);
+  max-width: 20ch; margin: 0 auto 2rem;
+}
+.sp-hero-headline .gold { color: var(--gold); font-style: italic; }
+.sp-hero-sub {
+  font-size: 1.1rem; line-height: 1.8; color: var(--ink-soft);
+  font-weight: 300; max-width: 38rem; margin: 0 auto 3rem;
+}
+.sp-hero-cta-row {
+  display: flex; align-items: center; gap: 2rem; flex-wrap: wrap; justify-content: center;
+}
+.sp-price-chip {
+  display: flex; flex-direction: column; align-items: flex-start; line-height: 1.2;
+}
+.sp-price-chip small {
+  font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--ink-dim);
+}
+.sp-price-chip strong { font-size: 1.9rem; font-weight: 300; color: var(--ink); }
+.sp-hero-trust {
+  margin-top: 2.75rem; font-size: 0.7rem; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink-dim); font-weight: 400;
+}
+
+/* PROBLEM grid */
+.sp-pain-grid {
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; margin-top: 3.5rem;
+}
+.sp-pain {
+  border: 1px solid var(--line); background: rgba(244,239,230,0.02);
+  padding: 2rem 2rem 2.1rem;
+}
+.sp-pain-num { font-size: 0.7rem; letter-spacing: 0.3em; color: var(--gold); margin-bottom: 1rem; }
+.sp-pain p { font-size: 0.95rem; line-height: 1.7; color: var(--ink-soft); font-weight: 300; }
+.sp-pain p strong { color: var(--ink); font-weight: 500; }
+
+/* FEATURE grid */
+.sp-feature-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem;
+}
+.sp-feature {
+  border: 1px solid var(--line); padding: 2.25rem 1.9rem;
+  background: rgba(244,239,230,0.02); transition: border-color 0.5s var(--ease);
+}
+.sp-feature:hover { border-color: var(--gold-soft); }
+.sp-feature-stat {
+  font-size: 2.4rem; font-weight: 200; color: var(--gold); line-height: 1; margin-bottom: 0.9rem;
+}
+.sp-feature-title {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--ink); font-weight: 500; margin-bottom: 0.85rem;
+}
+.sp-feature p { font-size: 0.9rem; line-height: 1.65; color: var(--ink-soft); font-weight: 300; }
+
+/* DESTINATIONS list */
+.sp-regions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.5rem 3rem; margin-top: 1rem; }
+.sp-region-name {
+  font-size: 0.62rem; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 1rem;
+  padding-bottom: 0.75rem; border-bottom: 1px solid var(--line);
+}
+.sp-region ul { list-style: none; }
+.sp-region li {
+  font-size: 0.98rem; color: var(--ink-soft); font-weight: 300;
+  padding: 0.35rem 0; letter-spacing: 0.01em;
+}
+
+/* PREVIEW card (real sample from the PDF) */
+.sp-preview {
+  border: 1px solid var(--gold-soft); background: var(--bg);
+  max-width: 720px; margin: 3.5rem auto 0; position: relative;
+}
+.sp-preview::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent); opacity: 0.6;
+}
+.sp-preview-bar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1rem 1.75rem; border-bottom: 1px solid var(--line);
+  font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--ink-dim);
+}
+.sp-preview-body { padding: 2.5rem 2.5rem 2.75rem; }
+.sp-preview-kicker { font-size: 0.6rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.9rem; }
+.sp-preview-title { font-size: 1.7rem; font-weight: 200; color: var(--ink); margin-bottom: 1.1rem; }
+.sp-preview-title .gold { color: var(--gold); font-style: italic; }
+.sp-preview-intro { font-size: 0.92rem; line-height: 1.7; color: var(--ink-soft); font-weight: 300; margin-bottom: 1.75rem; }
+.sp-tier {
+  display: flex; justify-content: space-between; gap: 1.5rem;
+  padding: 0.95rem 0; border-top: 1px solid var(--line);
+}
+.sp-tier-label { font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); white-space: nowrap; padding-top: 0.2rem; }
+.sp-tier-name { font-size: 0.95rem; color: var(--ink); font-weight: 400; }
+.sp-tier-desc { font-size: 0.8rem; color: var(--ink-dim); font-weight: 300; margin-top: 0.15rem; }
+.sp-tier-price { font-size: 0.85rem; color: var(--ink-soft); white-space: nowrap; padding-top: 0.2rem; }
+.sp-preview-note {
+  margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid var(--gold-soft);
+  font-size: 0.88rem; line-height: 1.65; color: var(--ink-soft); font-style: italic;
+}
+.sp-preview-note strong { color: var(--gold); font-style: normal; font-weight: 500; letter-spacing: 0.05em; }
+.sp-preview-caption { text-align: center; font-size: 0.8rem; color: var(--ink-dim); margin-top: 1.5rem; font-weight: 300; }
+
+/* TWO-COLUMN for/not-for */
+.sp-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-top: 3rem; }
+.sp-col { border: 1px solid var(--line); padding: 2.25rem 2rem; }
+.sp-col.yes { border-color: var(--gold-soft); }
+.sp-col-head {
+  font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase;
+  font-weight: 600; margin-bottom: 1.5rem;
+}
+.sp-col.yes .sp-col-head { color: var(--gold); }
+.sp-col.no .sp-col-head { color: var(--ink-dim); }
+.sp-col ul { list-style: none; }
+.sp-col li {
+  font-size: 0.92rem; line-height: 1.55; color: var(--ink-soft); font-weight: 300;
+  padding: 0.6rem 0 0.6rem 1.5rem; position: relative; border-top: 1px solid var(--line);
+}
+.sp-col li:first-child { border-top: none; }
+.sp-col li::before { position: absolute; left: 0; top: 0.55rem; font-size: 0.85rem; }
+.sp-col.yes li::before { content: '+'; color: var(--gold); }
+.sp-col.no li::before { content: '—'; color: var(--ink-dim); }
+
+/* AUTHOR */
+.sp-author-card {
+  border: 1px solid var(--line); background: rgba(244,239,230,0.02);
+  padding: 3rem 3rem 3.25rem; max-width: 760px; margin: 0 auto;
+}
+.sp-author-card p {
+  font-size: 1rem; line-height: 1.85; color: var(--ink-soft); font-weight: 300; margin-bottom: 1.25rem;
+}
+.sp-author-card p:last-of-type { margin-bottom: 0; }
+.sp-author-card p strong { color: var(--ink); font-weight: 500; }
+.sp-author-sign {
+  margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line);
+  font-size: 0.62rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--ink-dim);
+}
+.sp-author-sign .gold { color: var(--gold); }
+
+/* OFFER box */
+.sp-offer {
+  border: 1px solid var(--gold-soft); background: var(--bg-warm);
+  max-width: 640px; margin: 0 auto; padding: 3.5rem 3rem; text-align: center; position: relative;
+}
+.sp-offer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold) 50%, transparent); opacity: 0.7;
+}
+.sp-offer-name { font-size: 0.65rem; letter-spacing: 0.4em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.5rem; }
+.sp-offer-price { font-size: 3.5rem; font-weight: 200; color: var(--ink); line-height: 1; }
+.sp-offer-price-meta { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--ink-dim); margin-top: 0.75rem; }
+.sp-offer-list { list-style: none; text-align: left; margin: 2.25rem 0; }
+.sp-offer-list li {
+  font-size: 0.93rem; color: var(--ink-soft); font-weight: 300;
+  padding: 0.7rem 0 0.7rem 1.75rem; position: relative; border-top: 1px solid var(--line);
+}
+.sp-offer-list li::before {
+  content: ''; position: absolute; left: 0; top: 0.95rem;
+  width: 11px; height: 6px; border-left: 1.5px solid var(--gold);
+  border-bottom: 1.5px solid var(--gold); transform: rotate(-45deg);
+}
+.sp-offer .sp-cta { width: 100%; justify-content: center; }
+.sp-offer-fineprint { font-size: 0.75rem; color: var(--ink-dim); margin-top: 1.5rem; letter-spacing: 0.03em; }
+
+/* FAQ */
+.sp-faq { max-width: 760px; margin: 0 auto; }
+.sp-faq-item { border-bottom: 1px solid var(--line); }
+.sp-faq-item summary {
+  list-style: none; cursor: pointer; padding: 1.6rem 2.5rem 1.6rem 0;
+  font-size: 1.02rem; color: var(--ink); font-weight: 400; position: relative;
+  transition: color 0.3s var(--ease);
+}
+.sp-faq-item summary::-webkit-details-marker { display: none; }
+.sp-faq-item summary:hover { color: var(--gold); }
+.sp-faq-item summary::after {
+  content: '+'; position: absolute; right: 0; top: 1.4rem;
+  font-size: 1.3rem; color: var(--gold); font-weight: 200; transition: transform 0.3s var(--ease);
+}
+.sp-faq-item[open] summary::after { transform: rotate(45deg); }
+.sp-faq-item p {
+  font-size: 0.93rem; line-height: 1.75; color: var(--ink-soft);
+  font-weight: 300; padding: 0 2.5rem 1.8rem 0;
+}
+
+/* FINAL CTA */
+.sp-final { text-align: center; padding: 8rem 2rem; position: relative; overflow: hidden; }
+.sp-final::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse 800px 500px at 50% 50%, rgba(201,169,97,0.10), transparent 62%);
+}
+.sp-final > * { position: relative; z-index: 1; }
+
+/* Sales-page responsive */
+@media (max-width: 900px) {
+  .sp-section { padding: 5rem 0; }
+  .sp-feature-grid { grid-template-columns: 1fr; }
+  .sp-pain-grid { grid-template-columns: 1fr; }
+  .sp-regions { grid-template-columns: 1fr; gap: 2rem; }
+  .sp-cols { grid-template-columns: 1fr; }
+}
+@media (max-width: 500px) {
+  .sp-inner, .sp-inner-narrow { padding: 0 1.5rem; }
+  .sp-section { padding: 4rem 0; }
+  .sp-hero { min-height: 88vh; padding: 5rem 1.5rem; }
+  .sp-hero-cta-row { flex-direction: column; gap: 1.5rem; }
+  .sp-preview-body { padding: 1.75rem 1.5rem 2rem; }
+  .sp-tier { flex-wrap: wrap; gap: 0.35rem; }
+  .sp-offer { padding: 2.5rem 1.5rem; }
+  .sp-author-card { padding: 2rem 1.5rem; }
+}
+
 /* ACCESS PAGE (post-purchase preview) */
 .access {
   display: none;
@@ -3158,249 +3428,6 @@ section { position: relative; }
   </div>
 </div>
 
-<!-- N° 01 - DISCIPLINE SYSTEM -->
-<div class="page-modal" id="systemDiscipline">
-  <div class="page-modal-header">
-    <a href="#" class="nav-logo" onclick="closeSystem('Discipline'); return false;">
-      <svg class="chevron" viewBox="-50 -32 100 60" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="-44,18 0,-26 44,18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"/>
-        <polyline points="-30,8 0,-22 30,8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.7"/>
-        <polyline points="-16,-2 0,-18 16,-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.45"/>
-      </svg>
-      <span class="wordmark">EVLVED</span>
-    </a>
-    <button class="page-modal-close" onclick="closeSystem('Discipline')" aria-label="Close">✕</button>
-  </div>
-  <div class="page-modal-content">
-    <div class="system-detail-hero">
-      <div class="system-detail-num">N° 01 · The Foundation</div>
-      <h1 class="system-detail-name">Discipline <span class="gold">System.</span></h1>
-      <p class="system-detail-tagline">Honestly, this one is the foundation. If you don't have your habits and routines locked in, none of the other stuff matters. This is how I actually run my days.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What this is</h3>
-      <p>Not motivation. Not 5am ice baths. Not a 30-day challenge you'll quit on day 11. This is the structure I run every day so the work happens whether I feel like it or not. Habits, routines, environment, the rules I keep so I don't have to keep deciding.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>Who it's for</h3>
-      <p>You know what to do. You can't stay consistent. You start strong and fade. You've read all the books and still can't get the reps in. This is for getting the reps in.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What you get</h3>
-      <ul class="system-detail-included">
-        <li><div><strong>Daily Routines &amp; Structure</strong>The actual blocks of my day. Morning, work, training, evening. The order matters.</div></li>
-        <li><div><strong>Habit Installation</strong>How to install one habit at a time so it sticks. The order I'd add them in if I were starting from zero.</div></li>
-        <li><div><strong>Environment Design</strong>Your room, your phone, your fridge, who you spend time with. Most discipline problems are environment problems.</div></li>
-        <li><div><strong>Mental Frameworks</strong>How I think about bad days, plateaus, motivation drops, and the inevitable dips that knock most people off.</div></li>
-        <li><div><strong>Reset Protocols</strong>You will fall off. Here's how to get back on track in a day instead of a month.</div></li>
-        <li><div><strong>Lifetime Updates</strong>I refine this as I go. Every update lands in your copy.</div></li>
-      </ul>
-    </div>
-
-    <div class="system-detail-cta-block">
-      <div class="system-detail-price">
-        <small>One Time</small>
-        <strong>$19.99</strong>
-      </div>
-      <button class="system-detail-add detail-add-to-cart" data-id="discipline" data-name="Discipline System" data-price="19.99">Add to Cart</button>
-    </div>
-
-    <div class="system-detail-coaching">
-      <div class="system-detail-coaching-inner">
-        <div class="system-detail-coaching-eyebrow">Need More? · 1-on-1</div>
-        <div class="system-detail-coaching-title">Book a <span class="gold">call</span> with me.</div>
-        <p class="system-detail-coaching-desc">30 minutes. Walk me through where you're stuck. I'll help you figure out the move. $297.</p>
-        <a class="system-detail-coaching-btn" href="https://buy.stripe.com/eVqbIUdR7e3lg1b8qF63K05" target="_blank" rel="noopener">Book a Call</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- N° 02 - FITNESS SYSTEM -->
-<div class="page-modal" id="systemFitness">
-  <div class="page-modal-header">
-    <a href="#" class="nav-logo" onclick="closeSystem('Fitness'); return false;">
-      <svg class="chevron" viewBox="-50 -32 100 60" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="-44,18 0,-26 44,18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"/>
-        <polyline points="-30,8 0,-22 30,8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.7"/>
-        <polyline points="-16,-2 0,-18 16,-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.45"/>
-      </svg>
-      <span class="wordmark">EVLVED</span>
-    </a>
-    <button class="page-modal-close" onclick="closeSystem('Fitness')" aria-label="Close">✕</button>
-  </div>
-  <div class="page-modal-content">
-    <div class="system-detail-hero">
-      <div class="system-detail-num">N° 02 · The Body</div>
-      <h1 class="system-detail-name">Fitness <span class="gold">System.</span></h1>
-      <p class="system-detail-tagline">Everything I do for training, food and recovery. I've been at it for years and figured out what works and what doesn't. No influencer crap.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What this is</h3>
-      <p>Real training. Real food. Real recovery. The stuff I actually do, not what I'd write to sell you supplements. Built to work in a full gym, a hotel room, or with nothing at all. The kind of fitness that holds whether life is calm or chaos.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>Who it's for</h3>
-      <p>Anyone who wants a body that works for the life they actually live. Travel, long days, family stuff, business. Scales from beginner to advanced. You don't need fancy equipment. You need to show up.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What you get</h3>
-      <ul class="system-detail-included">
-        <li><div><strong>Training Plan</strong>The actual splits, reps, and progressions. Full gym, hotel gym, no equipment options.</div></li>
-        <li><div><strong>Nutrition Framework</strong>How I eat. Macros, meal templates, the rules I follow across time zones. No food scale required.</div></li>
-        <li><div><strong>Hotel &amp; Travel Routines</strong>Pre-built workouts for jet-lag days, 30-minute hotel sessions, no-equipment days.</div></li>
-        <li><div><strong>Recovery Routines</strong>Sleep, mobility, recovery work. The stuff that keeps the body together when the schedule doesn't.</div></li>
-        <li><div><strong>Lifetime Updates</strong>I refine this constantly. You get everything I add, no extra cost.</div></li>
-        <li><div><strong>Direct Access</strong>Email line for questions and swaps.</div></li>
-      </ul>
-    </div>
-
-    <div class="system-detail-cta-block">
-      <div class="system-detail-price">
-        <small>One Time</small>
-        <strong>$19.99</strong>
-      </div>
-      <button class="system-detail-add detail-add-to-cart" data-id="fitness" data-name="Fitness System" data-price="19.99">Add to Cart</button>
-    </div>
-
-    <div class="system-detail-coaching">
-      <div class="system-detail-coaching-inner">
-        <div class="system-detail-coaching-eyebrow">Need More? · 1-on-1</div>
-        <div class="system-detail-coaching-title">Book a <span class="gold">call</span> with me.</div>
-        <p class="system-detail-coaching-desc">30 minutes. Walk me through where you're stuck. I'll help you figure out the move. $297.</p>
-        <a class="system-detail-coaching-btn" href="https://buy.stripe.com/eVqbIUdR7e3lg1b8qF63K05" target="_blank" rel="noopener">Book a Call</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- N° 03 - TRAVEL SYSTEM -->
-<div class="page-modal" id="systemTravel">
-  <div class="page-modal-header">
-    <a href="#" class="nav-logo" onclick="closeSystem('Travel'); return false;">
-      <svg class="chevron" viewBox="-50 -32 100 60" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="-44,18 0,-26 44,18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"/>
-        <polyline points="-30,8 0,-22 30,8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.7"/>
-        <polyline points="-16,-2 0,-18 16,-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.45"/>
-      </svg>
-      <span class="wordmark">EVLVED</span>
-    </a>
-    <button class="page-modal-close" onclick="closeSystem('Travel')" aria-label="Close">✕</button>
-  </div>
-  <div class="page-modal-content">
-    <div class="system-detail-hero">
-      <div class="system-detail-num">N° 03 · The World</div>
-      <h1 class="system-detail-name">Travel <span class="gold">System.</span></h1>
-      <p class="system-detail-tagline">I've been to 22+ countries and travelled for years. Thirty destinations in this one. The hotels I'd actually book, the places to skip, how I plan and book.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What this is</h3>
-      <p>128 pages. Thirty destinations across four continents. 191 hotels I'd actually stay at, sorted by budget. The flights, the bookings, the apps, the SIMs, the cards. Everything I use to travel well without paying full retail for every mistake.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>Who it's for</h3>
-      <p>People who actually travel and want to skip the 40 hours of research per trip. Operators, founders, anyone with a life that takes them around the world. Not theory. The real thing.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What you get</h3>
-      <ul class="system-detail-included">
-        <li><div><strong>30 Destinations</strong>Bali, Tokyo, NYC, Paris, Tulum, Mykonos, and 24 more. Each with hotels by tier, what to do, what to skip.</div></li>
-        <li><div><strong>191 Hotels</strong>Sorted Iconic, Premium, Mid, Smart Value, Backpacker. Real picks with real prices. Plain Booking.com links, no affiliates.</div></li>
-        <li><div><strong>Flights &amp; Booking Stack</strong>How I find good flights, when business class is worth it, the credit cards and apps that pay you back.</div></li>
-        <li><div><strong>Logistics Chapters</strong>Packing, money cards, SIMs and eSIMs, insurance, scams, travel-day playbook, apps that actually save you time.</div></li>
-        <li><div><strong>"My Take" Notes</strong>35 personal calls throughout. What I'd do, what I wouldn't, the things you only learn after the trip.</div></li>
-        <li><div><strong>Lifetime Updates</strong>Destinations and picks get refreshed. You get every update.</div></li>
-      </ul>
-    </div>
-
-    <div class="system-detail-cta-block">
-      <div class="system-detail-price">
-        <small>Lifetime Access</small>
-        <strong>$39.99</strong>
-      </div>
-      <button class="system-detail-add detail-add-to-cart" data-id="travel" data-name="Travel System" data-price="39.99">Add to Cart</button>
-    </div>
-
-    <div class="system-detail-coaching">
-      <div class="system-detail-coaching-inner">
-        <div class="system-detail-coaching-eyebrow">Need More? · 1-on-1</div>
-        <div class="system-detail-coaching-title">Book a <span class="gold">call</span> with me.</div>
-        <p class="system-detail-coaching-desc">30 minutes. Trip planning, routing, anything else. I'll help you figure out the move. $297.</p>
-        <a class="system-detail-coaching-btn" href="https://buy.stripe.com/eVqbIUdR7e3lg1b8qF63K05" target="_blank" rel="noopener">Book a Call</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- N° 04 - INCOME SYSTEM -->
-<div class="page-modal" id="systemIncome">
-  <div class="page-modal-header">
-    <a href="#" class="nav-logo" onclick="closeSystem('Income'); return false;">
-      <svg class="chevron" viewBox="-50 -32 100 60" xmlns="http://www.w3.org/2000/svg">
-        <polyline points="-44,18 0,-26 44,18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter"/>
-        <polyline points="-30,8 0,-22 30,8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.7"/>
-        <polyline points="-16,-2 0,-18 16,-2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="square" stroke-linejoin="miter" opacity="0.45"/>
-      </svg>
-      <span class="wordmark">EVLVED</span>
-    </a>
-    <button class="page-modal-close" onclick="closeSystem('Income')" aria-label="Close">✕</button>
-  </div>
-  <div class="page-modal-content">
-    <div class="system-detail-hero">
-      <div class="system-detail-num">N° 04 · The Capital</div>
-      <h1 class="system-detail-name">Income <span class="gold">System.</span></h1>
-      <p class="system-detail-tagline">All the tools, software and AI I use to build my businesses and make money online. The exact setup. Took me years to figure out, all in one place.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What this is</h3>
-      <p>60 pages. Not a "make $10k in 30 days" book. There is no such book that is honest. This is the mindset, the stack, the playbooks, and the mistakes I made so you don't have to. Built around one principle: you can build anything you want with a stack of AIs and an imagination. Most people just don't believe that sentence.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>Who it's for</h3>
-      <p>Beginner-led. If you have imagination and drive but no idea where to start. Experienced builders will find the stack and workflows useful too. Either way, the principle is the same: stop consuming, start building.</p>
-    </div>
-
-    <div class="system-detail-section">
-      <h3>What you get</h3>
-      <ul class="system-detail-included">
-        <li><div><strong>The Mindset</strong>How to think about online business now that AI changes the game. Freedom over money. Imagination as the moat.</div></li>
-        <li><div><strong>The Full Stack</strong>Every tool I use. Claude, ChatGPT, OpenClaw, Vercel, GoDaddy, Supabase, Kit, Stripe, Wise, Revolut, Notion, Monday, and the rest.</div></li>
-        <li><div><strong>How I Built EVLVED.com</strong>Step by step, the exact 10-step playbook to build a real product site from zero. Worked example you can copy.</div></li>
-        <li><div><strong>Playbooks</strong>How I'd build an online store. How I'd build a content business. The principle that makes any of it work.</div></li>
-        <li><div><strong>Mistakes I Made</strong>Nine real principles including the $30k loss, when to push, when to quit, and how to spot a too-good-to-be-true setup.</div></li>
-        <li><div><strong>Lifetime Updates</strong>The stack evolves. Every update is yours.</div></li>
-      </ul>
-    </div>
-
-    <div class="system-detail-cta-block">
-      <div class="system-detail-price">
-        <small>One Time</small>
-        <strong>$59.99</strong>
-      </div>
-      <button class="system-detail-add detail-add-to-cart" data-id="income" data-name="Income System" data-price="59.99">Add to Cart</button>
-    </div>
-
-    <div class="system-detail-coaching">
-      <div class="system-detail-coaching-inner">
-        <div class="system-detail-coaching-eyebrow">Need More? · 1-on-1</div>
-        <div class="system-detail-coaching-title">Book a <span class="gold">call</span> with me.</div>
-        <p class="system-detail-coaching-desc">30 minutes. The stack, your build, where you're stuck. I'll help you figure out the move. $297.</p>
-        <a class="system-detail-coaching-btn" href="https://buy.stripe.com/eVqbIUdR7e3lg1b8qF63K05" target="_blank" rel="noopener">Book a Call</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- COACHING DETAIL MODAL -->
 <div class="page-modal" id="systemCoaching">
@@ -4097,14 +4124,14 @@ section { position: relative; }
     restoreScroll();
   };
 
+  // Open the legal pages directly via hash (e.g. linked from the system landers)
+  if (location.hash === '#terms') openPageTerms();
+  else if (location.hash === '#privacy') openPagePrivacy();
+
   // ============================================
-  // SYSTEM DETAIL MODALS (clickable cards)
+  // SYSTEM DETAIL MODALS (coaching only — systems are standalone pages)
   // ============================================
   const systemModalMap = {
-    'fitness': 'systemFitness',
-    'income': 'systemIncome',
-    'discipline': 'systemDiscipline',
-    'travel': 'systemTravel',
     'coaching': 'systemCoaching',
   };
 
@@ -4127,16 +4154,17 @@ section { position: relative; }
     if (wasOpen) restoreScroll();
   };
 
-  // Make each system card clickable to open its detail modal.
+  // Make each system card navigate to its standalone sales page.
   // Card order on the page: Discipline (01), Fitness (02), Travel (03), Income (04).
-  // Clicks on buttons/links inside the card don't trigger card open (stopPropagation).
-  const systemCardOrder = ['Discipline', 'Fitness', 'Travel', 'Income'];
+  // Clicks on buttons/links inside the card don't trigger card navigation.
+  const systemCardPages = ['/discipline', '/fitness', '/travel', '/income'];
   document.querySelectorAll('.system-card').forEach((card, idx) => {
+    card.style.cursor = 'pointer';
     card.addEventListener('click', (e) => {
       // If the click was on or inside any button or link, ignore it
       if (e.target.closest('button') || e.target.closest('a')) return;
-      const name = systemCardOrder[idx];
-      if (name) openSystem(name);
+      const page = systemCardPages[idx];
+      if (page) window.location.href = page;
     });
   });
 
@@ -4165,6 +4193,19 @@ section { position: relative; }
       addToCart(btn.dataset.id, btn.dataset.name, btn.dataset.price);
       btn.classList.add('added');
       btn.textContent = 'In Cart';
+    });
+  });
+
+  // Sales-page CTA buttons — straight to the product's Stripe checkout
+  document.querySelectorAll('.sp-buy').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const link = STRIPE_LINKS[btn.dataset.id];
+      if (link) {
+        trackInitiateCheckout([{ id: btn.dataset.id, price: parseFloat(btn.dataset.price) }]);
+        window.location.href = link;
+      }
     });
   });
 
