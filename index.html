@@ -2815,8 +2815,8 @@ section { position: relative; }
   </p>
 
   <div class="hero-cta-wrap">
-    <a href="#systems" class="btn">
-      <span>Explore Systems</span>
+    <a href="https://buy.stripe.com/eVqbIUdR7e3lg1b8qF63K05" class="btn js-coaching-cta">
+      <span>Book a Call</span>
       <span class="arrow"></span>
     </a>
   </div>
@@ -3637,6 +3637,13 @@ section { position: relative; }
       e.preventDefault();
       e.stopPropagation();
       addToCart(btn.dataset.id, btn.dataset.name, btn.dataset.price);
+    });
+  });
+
+  // Hero "Book a Call" CTA — fire Meta InitiateCheckout, then the link nav to Stripe runs as normal
+  document.querySelectorAll('.js-coaching-cta').forEach(btn => {
+    btn.addEventListener('click', () => {
+      trackInitiateCheckout([{ id: 'coaching', price: 297 }]);
     });
   });
 
